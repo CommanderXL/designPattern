@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .circle-item {
+            position: relative;
+                box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    border: 3px solid #e3e3e3;
+    background-color: #fff;
+    border-radius: 50%;
+        }
+        .circle-resolve {
+            position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -6px;
+    margin-left: -8px;
+    content: "";
+    width: 13px;
+    height: 6px;
+    transform: rotate(-47deg);
+    -webkit-transform: rotate(-47deg);
+    border-left: 2px solid #fe9f33;
+    border-bottom: 2px solid #fe9f33;
+        }
+    </style>
+</head>
+<body>
+    <button id="execute">点击我执行命令</button>
+    <button id="undo">点击我执行命令</button>
+    <div class="circle-item">
+        <div class="circle-resolve"></div>
+    </div>
+    <script src="./demo.js"></script>
+    <script>
+        //函数节流
+var throttle = function(fn ,interval) {
+    var __self = fn,    //想要执行的函数
+        timer,          //定时器
+        firstTime = true;
+        
+    return function() {
+        var args = arguments,
+            __me = this;    //window
+            
+        if(firstTime) {     //如果是第一次调用,不需要延迟执行
+            __self.apply(__me, args);
+            return firstTime = false;
+        }
+        
+        if(timer) {     //如果定时器还在，说明前一次延迟执行还没有完成
+            return false;
+        }
+        
+        timer = setTimeout(function() {
+            clearTimeout(timer);
+            timer = null;
+            __self.apply(__me, args);
+        }, interval || 500);
+    }
+}
+
+window.onresize = throttle(function() {
+    console.log(1);
+}, 20);
+    </script>
+</body>
+</html>
