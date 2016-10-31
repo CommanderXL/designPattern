@@ -5,12 +5,14 @@
 
 //节流函数一般用以哪些触发很频繁的操作当中
 
+
+//传入的fn定义方式,是全局定义,还是作为对象的属性来调用?
 function throttle(fn, interval) {
     var __self = fn,    //保留对原函数的引用
         timer,          //定时器
         firstTime = true;   //是否是第一次调用
     return function() {
-        var __me = this,
+        var __me = this,    //保留对调用对象的引用
             args = arguments;
         
         if(firstTime) {         //如果是第一个调用，不需要延迟执行
